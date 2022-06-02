@@ -1,0 +1,210 @@
+/* body{
+
+    background-color: rgb(142, 138, 197);
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+} */
+.imgcomment {
+    width: 90%;
+    /* height: 80%; */
+    border-radius: 5%;
+    margin: auto auto auto auto;
+    text-align: left;
+    /* align-items: flex-end; */
+    /* float: right;
+    margin-left: 20px;
+    margin-right:0; */
+      
+}
+/*
+@media only screen and (max-width: 600px) {
+  #block {
+    width: 95%;
+  }
+  table{
+  width: 100%;
+  }
+*/
+
+  .grid-ecommerce{
+    display: grid;
+    width: 90%;
+    grid-template-areas: 'producto titulo'
+                          'producto  precio'
+                          'producto  fecha'
+                          'producto vacio';
+    grid-template-columns: 40%  60%; 
+    grid-template-rows:  3em auto 2em 2em;
+
+    /* grid-template-rows: 50px auto 50px;
+    grid-template-columns: 150px auto 150px; */
+    /* width: 80%; */
+    min-height: 22em;
+    max-height: auto ;
+    margin: 1em 5% 0.5em 5%;
+    /* margin-bottom: 30px ; */
+    /* background-color: rgb(255, 0, 0); */
+    /* background-color: #090909; */
+    color:#ffffff;
+    background:transparent;
+    /* background-color:transparent; */
+    /* background: linear-gradient(to right, #353232 , rgb(75, 71, 71)); */
+    /* background: linear-gradient(140deg,rgba(0,0,0,.6) 60%,transparent); */
+    /* linear-gradient(140deg,rgba(0,0,0,.3) 50%,transparent) */
+    /* padding: 0px; */
+    /* border: 1px solid black; */
+    border-top:    1px dashed  rgb(103, 103, 115);
+    /* border-right:  2px dashed #f0F; */
+    border-bottom: 1px dotted rgb(103, 103, 115);
+    /* border-left:   5px solid  #09f; */
+    /* border-radius: 20px; */
+
+}
+.div-auction{
+    width: 90%;
+    /* border: 1px solid black; */
+    /* background-color: blueviolet; */
+    margin: 1px;
+    text-align: center;
+    padding: 10px;
+    /* float: left; */
+    
+}
+.area-titulo{
+    grid-area: titulo;
+
+  }
+/* 
+.area-producto{
+    grid-area: producto;
+
+    /* margin: auto auto auto auto; */
+
+.area-producto{
+  grid-area: producto;
+  margin: auto auto auto auto;
+}
+
+.area-precio{
+  /* display: flex; */
+  clear: both;
+  grid-area: precio; 
+    word-break: break-all;
+    /* margin-left: 10px; */
+    color:#000000;
+}
+.area-descripcion{
+  /* display: flex; */
+  clear: both;
+  grid-area: precio;
+  margin: auto auto auto auto;  
+    word-break: break-all;
+    /* margin-left: 10px; */
+    color:#000000;
+}
+
+.area-fecha{
+    grid-area: fecha;
+    color:#000000;
+
+}
+
+.area-vacio{
+    grid-area: vacio;
+}
+
+.time-right {
+    float: right;
+    /* line-height: 10px; */
+}  
+
+
+.centro{
+    text-align: center;
+    /* line-height: 150px; */
+}
+.left-auction{
+    text-align: left;
+    /* line-height: 20px; */
+}
+.p-auction{
+grid-row: flex;
+ font-size: 14px; 
+ color: rgb(0, 0, 0);  
+}
+
+.span-auction{
+   grid-row: flex;
+   /* bottom: 10; */
+   font-size: 14px; 
+   color: rgb(128, 123, 123);   
+  }
+  
+
+.grid-ecommerce:hover{
+  background:#f7f7f7;
+  border-top:    2px dashed  rgb(103, 103, 115);
+  /* border-right:  2px dashed #f0F; */
+  border-bottom: 2px dotted rgb(103, 103, 115);
+
+}
+
+
+.imgexpand:hover{
+  /* color: transparent; */
+  border-radius: 3%;
+  width: 50vw;
+  box-shadow: 0 0 1px 1px rgb(105, 105, 105);
+  display: overlay;
+  position: relative;
+  /* top: 0; */
+  left: 40%;
+
+}
+
+/* 
+
+
+            <div class="grid-ecommerce ">
+                <div class="div-auction left-auction area-titulo">
+                  <p class="p-auction"></strong> <a  href="{% url 'specifico' type=c%}">    ropa</a></p>
+                </div>
+                <div class="div-auction  area-producto">
+                  <img class="imgcomment imgexpand" src="bandmember.jpg" >
+                </div>
+                <div class="div-auction  area-precio left-auction">
+                  <p class="p-auction"><strong>Precio </strong>Cuando se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%).
+                    Cuando se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%). se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%).
+                    Cuando se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%). </p>
+                </div>
+                <div class="div-auction  area-fecha left-auction">
+                  <p class="area-fecha"> <strong>vendedor </strong>User 1</p>
+                </div> 
+                <div class="div-auction  area-vacio">
+                </div>   
+                <div class="div-auction  area-vacio left-auction">
+                  <p class=" p-auction"> <strong>Fecha </strong> Mayo</p>
+                </div>
+              </div> 
+
+
+
+
+              <div class="grid-ecommerce">
+                <div class="div-auction  area-producto">
+                  <a href="paris.jpg">
+                  <img class="imgcomment" src="bandmember.jpg" >
+                </a>
+                </div>
+                <div class="div-auction  area-descripcion left-auction">
+                  <p class="p-auction"></strong> <a  href="{% url 'specifico' type=c%}">    ropa</a></p>
+                  <p class="p-auction"><strong>Precio </strong>1000$ </p>
+                  <span class=" span-auction "> <strong>Fecha </strong> Mayo</span>
+                </div>
+              </div> 
+
+
+
+
+
+*/

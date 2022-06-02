@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Create a new Listing</h2>
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="divlabel">  
+                {{ field }}
+            </div>
+            <br>
+
+
+        {% endfor %}
+
+        <!-- <div class="form-group">
+            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Login"> -->
+        <input class="btn btn-primary" type="submit" value="Login">
+
+    </form>
+    TODO
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Create a new Listing</h2>
+
+
+        {% csrf_token %}
+        <ul class="nav">
+        {% for c in categoria %}
+            <div>            
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listItems' department=c%}">{{ c }}</a>
+                </li>
+            </div>
+        {% endfor %}
+
+
+
+    TODO
+{% endblock %}
