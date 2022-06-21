@@ -5,12 +5,14 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.urls import path
 
-from .models import User, listing
+from .models import User, listing, product, getMonth
 
 Options=["Fashion","Toys","Electrics","Home"]
 Items=[1,2,3,4,5]
+count=1
 def index(request):
-    return render(request, "auctions/index.html")
+    activeAuctions=product.objects.filter(state=True)
+    return render(request, "auctions/index.html",{"activeAuctions":activeAuctions })
 
 
 def login_view(request):
@@ -64,24 +66,30 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-
+# @login_required
 def createList(request):
     return render(request, "auctions/createList.html",{ 
         "form": listing
     })
 
 def category(request):
+
     return render(request, "auctions/category.html",{"categoria":Options})
 
 def listItems(request,department):
+    activeAuctions=product.objects.filter( category = department)
     return render(request, "auctions/listItems.html",{
-        "categoria":Options,"name":department,"items":Items
+        "categoria":Options,"name":department,"a":1,"activeAuctions":activeAuctions
 })
 def showItem(request,itemId):
 
-    if not(itemId in Items):
-        return render(request, "auctions/error.html") 
+    # if not(itemId in Items):
+    #     return render(request, "auctions/error.html")
+
+
+    prod=product.objects.get(id=itemId)
+    print(prod.id,prod.description)
     return render(request, "auctions/showItem.html",{
-        "categoria":Options,"name":Options[0],"item":1
+        "prod":prod,
 
 })

@@ -1,7 +1,37 @@
 {% extends "auctions/layout.html" %}
-
+{% load static %}
 {% block body %}
     <h2>Active Listings</h2>
+    {% if activeAuctions %}
+        <ul>
+            {% for a in activeAuctions %}
+                <div class="grid-ecommerce ">
+                    <div class="div-auction left-auction area-titulo">
+                        <!-- <p class="p-auction"></strong> <a  href="{% url 'showItem' itemId=1%}"> {{a.sellingProduct.productTitle}}</a></p> -->
+                    </div>
+                    <div class="div-auction  area-producto">
+                        <img class="imgcomment imgexpand" src="{% static 'images/bandmember.jpg' %}" >
+                        <!-- <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;"> -->
+                     </div>
+                    <div class="div-auction  area-precio left-auction">
+                        <p class="p-auction"></strong> <a  href="{% url 'showItem' itemId=a.id %}"> {{a.name}}</a></p>
+                        <p class="p-auction"><strong>Precio: </strong>{{a.currentPrice}}$ </p>
+                        <p class="p-auction"> <strong>Seller: </strong>{{a.owner}}</p>
+                        <p class=" p-auction"> <strong>Published</strong> {{a.publishDate}} </p>
+                        <p  class="p-auction"> <strong>Category  </strong> <a  href="{% url 'listItems' department=a.categoryProduct %} ">{{a.categoryProduct}}</a>  </p>
+                    </div>
+                    <div class="div-auction  area-fecha left-auction">
+                        <!-- <p  class="area-fecha"> <strong>Category  </strong> <a class=" p-auction" href="{% url 'listItems' department=a.categoryProduct %} "style="color: blue;">{{a.categoryProduct}}</a>  </p> -->
 
+                    </div> 
+                    <div class="div-auction  area-vacio">
+                    </div>   
+                    <div class="div-auction  area-vacio left-auction">
+                        <!-- <p class=" p-auction"> <strong>Published</strong> {{a.publishDate}} </p> -->
+                    </div>
+                </div> 
+            {% endfor %}
+        </ul>
+    {% endif %}
     TODO
 {% endblock %}
