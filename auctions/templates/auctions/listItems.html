@@ -4,15 +4,53 @@
 
 
 {% if activeAuctions %}
-<ul>
+  <ul>
     {% for a in activeAuctions %}
+        <div class="grid-ecommerce ">
+            <div class="div-auction left-auction area-titulo">
+                <p class="p-auction"></strong> <a  href="{% url 'showItem' itemId=a.0.id %}"> {{a.0.name}}</a></p>
+            </div>
+            <div class="div-auction  area-producto">
+            
+                <img class="imgList imgexpand" src="{% static 'images/bandmember.jpg' %}" >
+                <!-- <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;"> -->
+            </div>
+            <div class="div-auction  area-precio left-auction">
+                <p class="p-auction"><strong>Precio: </strong>{{a.0.currentPrice}}$ </p>
+            </div>
+            <div class="div-auction  area-fecha left-auction">
+                <p class="area-fecha"> <strong>Seller: </strong>{{a.0.owner}}</p>
+            </div> 
+            <div class="div-auction  area-vacio">
+            </div>   
+            <div class="div-auction  area-vacio left-auction">
+                <p class=" p-auction"> <strong>Published</strong> {{a.0.publishDate}}    </p>
+            </div>
+
+            {% if a.1 %}
+              <p class=" p-auction">This item is your wishList</p>
+            {% else %}
+              <form action="{% url 'addToList' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{a.0.id}}" name="productId">
+                <input class="btn-primary" type="submit"value="Add to wish list">
+              </form>
+            {% endif %}
+        </div> 
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if wishList %}
+<ul>
+  {% for a in wishList %}
         <div class="grid-ecommerce ">
             <div class="div-auction left-auction area-titulo">
                 <p class="p-auction"></strong> <a  href="{% url 'showItem' itemId=a.id %}"> {{a.name}}</a></p>
             </div>
             <div class="div-auction  area-producto">
             
-                <img class="imgcomment imgexpand" src="{% static 'images/bandmember.jpg' %}" >
+                <img class="imgList imgexpand" src="{% static 'images/bandmember.jpg' %}" >
                 <!-- <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;"> -->
             </div>
             <div class="div-auction  area-precio left-auction">
@@ -26,52 +64,12 @@
             <div class="div-auction  area-vacio left-auction">
                 <p class=" p-auction"> <strong>Published</strong> {{a.publishDate}}    </p>
             </div>
+
         </div> 
-    {% endfor %}
+  {% endfor %}
+
 </ul>
 {% endif %}
-
-<!-- {% for item in items %}
-
-              <div class="grid-ecommerce">
-                <div class="div-auction  area-producto">
-                  <a href="paris.jpg">
-                  <img class="imgcomment" src="{% static 'images/bandmember.jpg' %}" >
-                </a>
-                </div>
-                <div class="div-auction  area-descripcion left-auction">
-                  <p class="p-auction"></strong> <a  href="{% url 'showItem' itemId=item %}">{{item}}</a></p>
-                  <p class="p-auction"><strong>Precio </strong>1000$ </p>
-                  <span class=" span-auction "> <strong>Fecha </strong> Mayo</span>
-                </div>
-              </div> 
-
- {% endfor %} -->
-
- <!-- <div class="grid-ecommerce ">
-  <div class="div-auction left-auction area-titulo">
-    <p class="p-auction"></strong> <a  href="{% url 'showItem' itemId=1%}"> {j{item}}</a></p>
-  </div>
-  <div class="div-auction  area-producto">
-
-    <img class="imgcomment imgexpand" src="{% static 'images/bandmember.jpg' %}" >
-    <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;">
-  </div>
-  <div class="div-auction  area-precio left-auction">
-    <p class="p-auction"><strong>Precio </strong>Cuando se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%).
-      Cuando se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%). se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%).
-      Cuando se trata de unidades de medida en CSS, se pueden distinguir dos grandes grupos, las unidades absolutas y las unidades relativas. En lo que se refiere al tamaño de fuente tipográfica, la unidad absoluta estrella es sin duda el píxel (px), y entre las unidades relativas destacan las unidades em y rem, junto al viejo porcentaje (%). </p>
-  </div>
-  <div class="div-auction  area-fecha left-auction">
-    <p class="area-fecha"> <strong>vendedor </strong>User 1</p>
-  </div> 
-  <div class="div-auction  area-vacio">
-  </div>   
-  <div class="div-auction  area-vacio left-auction">
-    <p class=" p-auction"> <strong>Fecha </strong> Mayo</p>
-  </div>
-</div>  -->
-
 
 
 

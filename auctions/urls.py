@@ -12,4 +12,10 @@ urlpatterns = [
     path("category/<str:department>", views.listItems, name="listItems"),
     # path("seller/", views.type, name="seller"),
     path("seller/<int:itemId>", views.showItem, name="showItem"),    
+    path("postComment/<int:itemId>", views.postComment, name="postComment"),    
+    path("wishList/",views.wishList, name="wishList" ),
+    path("addToList/",views.addToList, name="addToList" ),
+    path("createAuction/",views.createAuction, name="createAuction" ),
+    path("postBid/<int:itemId>",views.postBid, name="postBid" ),
+    path("closeAuction/<int:itemId>",views.closeAuction, name="closeAuction" ),
     ]

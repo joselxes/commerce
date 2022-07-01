@@ -10,19 +10,27 @@
                   <p class="p-auction"></strong>{{prod.title}}</p>
                 </div>
                 <div class="div-auction  area-producto">
-                  <img class="imgcomment imgexpand" src="{% static 'images/bandmember.jpg' %}" >
+                  <img class="imgShowed imgexpand"  src="{% static 'images/bandmember.jpg' %}" >
                   <!-- <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;"> -->
                 </div>
                 <div class="div-auction  area-precio left-auction">
                   <p class="p-auction"><strong>Bid initial price:</strong> {{prod.initialPrice}}$</p>
                   <p class="p-auction"><strong>Bid current price:</strong> {{prod.currentPrice}}$</p>
                   <p class="p-auction"><strong>Description: </strong> {{prod.description}}</p>
-                  <p class="p-auction"><strong>Total bids: </strong> {{prod.bids}}</p>
-                  <form action="{% url 'showItem' prod.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="number" placeholder="Increase" step="any" min="1">
-                    <button>bid</button>
-                  </form>
+                  <p class="p-auction"><strong>Total bids: </strong> {{prod.totalBids}}</p>
+                  {% if owner %}
+                    <form action="{% url 'postBid' prod.id %}" method="POST">
+                      {% csrf_token %}
+                      <input name="actualValue" type="hidden" value={{prod.currentPrice}}>
+                      <input name="increase" type="number"  placeholder="Increase" step="any" min="1">
+                      <input class="btn btn-primary" type="submit" value="Bid">
+                    </form>
+                  {% else %}
+                    <form action="{% url 'closeAuction' prod.id %}" method="POST">
+                      {% csrf_token %}
+                      <input class="btn btn-danger" type="submit" value="End Auction">
+                    </form>                  
+                  {% endif %}
                 </div>
                 <div class="div-auction  area-fecha left-auction">
                   <p class="area-fecha"> <strong>Seller:</strong> {{ prod.owner }}</p>
@@ -34,8 +42,47 @@
                 </div>
               </div> 
 
+              <form action="{% url 'postComment' prod.id %}" style="margin-top:5vh;" method="POST">
+                <p>Make a comment</p>
+                {% csrf_token %}
+                  {% for field in form %}
+                      <div class="divlabel">  
+                          {{ field }}
+                      </div>
+                      <br>
+
+                  {% endfor %}
+                  <input class="btn btn-primary" type="submit" value="Comment">
+              </form>
 
 
+              {% for c in comments%}
+                <link rel="stylesheet" type="text/css" href="comentario.css">
+
+                <div class="grid-layout" ">
+                  <div class="caja left cl">
+                    <p class="comentariop"><strong>{{c.mssFrom}}</strong></p>
+                  </div>
+                  <div class="caja  ci">
+                    <img class="imgcomment" src="{% static 'images/bandmember.jpg' %}" > 
+                    <!-- <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;"> -->
+                  </div>
+                  <div class="caja  cc left">
+                    <p class="comentariop">{{c.content}}</p>
+                  </div>
+                  <div class="caja  cf left">
+                    <span class="comentariospan"> <strong>Date</strong>: {{c.date}}</span>
+                  </div> 
+                  <div class="caja  cv">
+                  </div>   
+                  <div class="caja  ct left">
+                    <span class="time-right comentariospan"> <strong>Rated</strong>: {{c.rate}}</span>
+                  </div>
+                </div> 
+              {% empty%}
+              <br>
+                <p>no previous opinion from users, yet</p>
+              {% endfor %}
 
 
               {% endblock %}

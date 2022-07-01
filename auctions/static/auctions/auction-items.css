@@ -4,7 +4,7 @@
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 } */
-.imgcomment {
+.imgList {
     width: 90%;
     /* height: 80%; */
     border-radius: 5%;
@@ -15,6 +15,18 @@
     margin-left: 20px;
     margin-right:0; */
       
+}
+.imgShowed {
+  width: 90%;
+  /* height: 80%; */
+  border-radius: 4%;
+  margin: auto auto auto auto;
+  text-align: left;
+  /* align-items: flex-end; */
+  /* float: right;
+  margin-left: 20px;
+  margin-right:0; */
+    
 }
 /*
 @media only screen and (max-width: 600px) {
