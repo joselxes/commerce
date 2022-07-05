@@ -15,6 +15,7 @@ urlpatterns = [
     path("postComment/<int:itemId>", views.postComment, name="postComment"),    
     path("wishList/",views.wishList, name="wishList" ),
     path("addToList/",views.addToList, name="addToList" ),
+    path("removeFromList/",views.removeFromList, name="removeFromList" ),
     path("createAuction/",views.createAuction, name="createAuction" ),
     path("postBid/<int:itemId>",views.postBid, name="postBid" ),
     path("closeAuction/<int:itemId>",views.closeAuction, name="closeAuction" ),

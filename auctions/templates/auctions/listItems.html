@@ -28,7 +28,11 @@
             </div>
 
             {% if a.1 %}
-              <p class=" p-auction">This item is your wishList</p>
+              <form action="{% url 'removeFromList' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{a.0.id}}" name="productId">
+                <input class="btn-warning" type="submit"value="Remove from wish list">
+              </form>
             {% else %}
               <form action="{% url 'addToList' %}" method="POST">
                 {% csrf_token %}
@@ -55,6 +59,7 @@
             </div>
             <div class="div-auction  area-precio left-auction">
                 <p class="p-auction"><strong>Precio: </strong>{{a.currentPrice}}$ </p>
+                <p class="area-fecha"> <strong>Description: </strong>{{a.description}}</p>
             </div>
             <div class="div-auction  area-fecha left-auction">
                 <p class="area-fecha"> <strong>Seller: </strong>{{a.owner}}</p>
@@ -64,7 +69,11 @@
             <div class="div-auction  area-vacio left-auction">
                 <p class=" p-auction"> <strong>Published</strong> {{a.publishDate}}    </p>
             </div>
-
+            <form action="{% url 'removeFromList' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{a.id}}" name="productId">
+                <input class="btn-warning" type="submit"value="Remove from wish list">
+              </form>
         </div> 
   {% endfor %}
 

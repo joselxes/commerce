@@ -96,7 +96,7 @@ def category(request):
 def listItems(request,department):
     activeAuctions=product.objects.filter( category = department)
     username=request.user
-    user=User.objects.get(username=username)
+    user=User.objects.get(id=username.id)
     return render(request, "auctions/listItems.html",{
         "categoria":Options,"name":department,"activeAuctions":itemsCheck(activeAuctions,user)
 })
@@ -113,18 +113,21 @@ def showItem(request,itemId):
     prodComments=comment.objects.filter(mssFor=prod)
     form=question()
     print(user!=prod.owner,user,prod.owner)
-
+    wlist=itemsList.objects.get(user=user)
+    # listaaa=wlist.products.all()
+    # print(8888,  listaaa)
     return render(request, "auctions/showItem.html",{
         "prod":prod,
         "form":form,
         "comments":prodComments,
         "owner":user==prod.owner,
         "buyer":user==prod.buyer,
+        "isInList":prod in wlist.products.all()
 })
 @login_required
 def wishList(request):
     userName=request.user
-    actualUser=User.objects.get(username=userName)
+    actualUser=User.objects.get(id=userName.id)
     try:
         items=itemsList.objects.get(user=actualUser)
     except:
@@ -156,7 +159,7 @@ def addToList(request):
         # try:
             form=request.POST["productId"]
             userName=request.user
-            user=User.objects.get(username=userName)
+            user=User.objects.get(id=userName.id)
             userList= itemsList.objects.get(user=user)
             newProduct=product.objects.get(id=form)
             # print("addTolist- newProduct",newProduct)
@@ -226,11 +229,36 @@ def closeAuction(request,itemId):
             prod=product.objects.get(id=itemId)
             prod.state=False
             prod.save(update_fields=['state'])
-            print(prod.buyer)
             return HttpResponseRedirect(reverse("showItem",kwargs={'itemId':itemId}))
 
 
     return render(request,"auctions/index.html")
+
+@login_required
+def removeFromList(request):
+    if request.method == "POST":
+        if True:
+        # try:
+            form=request.POST["productId"]
+            userName=request.user
+            user=User.objects.get(id=userName.id)
+            userList= itemsList.objects.get(user=user)
+            newProduct=product.objects.get(id=form)
+            # print("addTolist- newProduct",newProduct)
+            if userList is None:
+                newList=itemsList(user=userName)
+                newList.save()
+                userList=newList
+            checkProduct=itemsList.objects.filter(user=user,products=newProduct).all()
+            # print("addTolist- checkProduct",checkProduct,form)
+            if len(checkProduct) != 0:
+                print("ya esta en la lista")
+                userList.products.remove(newProduct)
+            return HttpResponseRedirect(reverse("showItem",kwargs={"itemId":form}))
+        # except:
+        else:
+            return HttpResponseRedirect(reverse("index"))            
+    return HttpResponseRedirect(reverse("index"))
 
 """
 falta lo de las imagenes 

@@ -4,10 +4,11 @@
 
 
 
-
+<p class="p-auction"></strong><h3>{{prod.name}}</h3></p>
             <div class="grid-ecommerce ">
-                <div class="div-auction left-auction area-titulo">
-                  <p class="p-auction"></strong>{{prod.title}}</p>
+
+              <div class="div-auction left-auction area-titulo">
+
                 </div>
                 <div class="div-auction  area-producto">
                   <img class="imgShowed imgexpand"  src="{% static 'images/bandmember.jpg' %}" >
@@ -29,6 +30,7 @@
                         <input name="increase" type="number"  placeholder="Increase" step="any" min="1">
                         <input class="btn btn-primary" type="submit" value="Bid">
                       </form>
+
                     {% else %}
                       <form action="{% url 'closeAuction' prod.id %}" method="POST">
                         {% csrf_token %}
@@ -61,6 +63,27 @@
                   <p class=" p-auction"> <strong>Published Date:</strong> {{prod.publishDate}}</p>
                 </div>
               </div> 
+              {% if prod.state %}
+
+                {% if owner is False %}
+
+                  {% if isInList %}
+                    <form action="{% url 'removeFromList' %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" value="{{prod.id}}" name="productId">
+                      <input class="btn-warning" type="submit"value="Remove from wish list">
+                    </form>
+
+                  {% else %}
+                    <form action="{% url 'addToList' %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" value="{{prod.id}}" name="productId">
+                      <input class="btn-primary" type="submit"value="Add to wish list">
+                    </form>                  
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+
 
               <form action="{% url 'postComment' prod.id %}" style="margin-top:5vh;" method="POST">
                 <p>Make a comment</p>
@@ -76,10 +99,11 @@
               </form>
 
 
+
               {% for c in comments%}
                 <link rel="stylesheet" type="text/css" href="comentario.css">
 
-                <div class="grid-layout" ">
+                <div class="grid-layout" >
                   <div class="caja left cl">
                     <p class="comentariop"><strong>{{c.mssFrom}}</strong></p>
                   </div>
