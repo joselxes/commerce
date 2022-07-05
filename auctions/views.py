@@ -108,17 +108,18 @@ def showItem(request,itemId):
 
     username=request.user
     user=User.objects.get(id=username.id)
-
     prod=product.objects.get(id=itemId)
     print(prod.id,prod.description)    
     prodComments=comment.objects.filter(mssFor=prod)
     form=question()
+    print(user!=prod.owner,user,prod.owner)
+
     return render(request, "auctions/showItem.html",{
         "prod":prod,
         "form":form,
         "comments":prodComments,
-        "owner":user!=prod.owner,
-
+        "owner":user==prod.owner,
+        "buyer":user==prod.buyer,
 })
 @login_required
 def wishList(request):
@@ -213,11 +214,6 @@ def postBid(request,itemId):
             print(prod.buyer)
             return HttpResponseRedirect(reverse("showItem",kwargs={'itemId':itemId}))
 
-        # print(prod)
-        # print(type(float(increase)),type(prod.currentPrice))
-
-        # newBid=bid(user=actualUser,value=increase)
-
 
     return render(request,"auctions/index.html")
 
@@ -232,13 +228,11 @@ def closeAuction(request,itemId):
             prod.save(update_fields=['state'])
             print(prod.buyer)
             return HttpResponseRedirect(reverse("showItem",kwargs={'itemId':itemId}))
-        # print(actualUser)
-        # print(prod)
-        # print(type(float(increase)),type(prod.currentPrice))
-
-        # newBid=bid(user=actualUser,value=increase)
-    pass
 
 
+    return render(request,"auctions/index.html")
 
-    # .
+"""
+falta lo de las imagenes 
+algo de admin
+"""

@@ -18,19 +18,39 @@
                   <p class="p-auction"><strong>Bid current price:</strong> {{prod.currentPrice}}$</p>
                   <p class="p-auction"><strong>Description: </strong> {{prod.description}}</p>
                   <p class="p-auction"><strong>Total bids: </strong> {{prod.totalBids}}</p>
-                  {% if owner %}
-                    <form action="{% url 'postBid' prod.id %}" method="POST">
-                      {% csrf_token %}
-                      <input name="actualValue" type="hidden" value={{prod.currentPrice}}>
-                      <input name="increase" type="number"  placeholder="Increase" step="any" min="1">
-                      <input class="btn btn-primary" type="submit" value="Bid">
-                    </form>
-                  {% else %}
-                    <form action="{% url 'closeAuction' prod.id %}" method="POST">
-                      {% csrf_token %}
-                      <input class="btn btn-danger" type="submit" value="End Auction">
-                    </form>                  
-                  {% endif %}
+                  {% if prod.state %}
+
+
+
+                    {% if owner is False %}
+                      <form action="{% url 'postBid' prod.id %}" method="POST">
+                        {% csrf_token %}
+                        <input name="actualValue" type="hidden" value={{prod.currentPrice}}>
+                        <input name="increase" type="number"  placeholder="Increase" step="any" min="1">
+                        <input class="btn btn-primary" type="submit" value="Bid">
+                      </form>
+                    {% else %}
+                      <form action="{% url 'closeAuction' prod.id %}" method="POST">
+                        {% csrf_token %}
+                        <input class="btn btn-danger" type="submit" value="End Auction">
+                      </form>                  
+                    {% endif %}
+                  {% else %} 
+
+                    {% if buyer is True %}
+                      <h3>You bought the product</h3>
+
+
+                    {% elif owner is True%}
+                      
+                      <h3>You have selled the product.</h3>
+
+                    {% else %}
+                      <h3>The product was bought by someone else.</h3>
+                      
+                    {% endif %}
+
+                  {% endif %}                    
                 </div>
                 <div class="div-auction  area-fecha left-auction">
                   <p class="area-fecha"> <strong>Seller:</strong> {{ prod.owner }}</p>
