@@ -38,14 +38,15 @@ class listing(forms.Form):
     initialPrice=forms.FloatField(label="Start at", min_value=0,
         widget= forms.NumberInput(attrs={'class':'some_class','id':'some_id','placeholder':'Starter Price'}))
 
-#     productImage=forms.ImageField(label="Imagen",
-# widget= forms.FileInput(attrs={'class':'some_class','id':'some_id'}))
+    productImage=forms.ImageField(label="Imagen",
+        widget= forms.FileInput(attrs={'class':'some_class','id':'some_id'}))
 
     category=forms.ChoiceField(label="Category", choices=categoryOptions,
         widget= forms.Select(attrs={'class':'form-control','id':'some_id','placeholder':'Category','width':'10%'}))    
     
     description=forms.CharField(label="Description", widget=forms.Textarea(attrs={'rows':'15','cols':'90',
     'class':'form-control','id':'some_id','placeholder':'Description'}))
+
 class bid(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     value=models.FloatField(blank=False)
@@ -60,12 +61,12 @@ class product(models.Model):
     currentPrice=models.FloatField(blank=True)
     description = models.CharField(max_length=50)
     state=models.BooleanField(default=True)
-    # publishDate = models.DateField(default=datetime.date.today())
     publishDate = models.DateField(default=timezone.now)
     category = models.CharField(max_length=25,choices=categoryOptions)
     totalBids=models.IntegerField(default=0)
     buyer=models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE, related_name='buyer')
-    bids=models.ManyToManyField(bid,related_name="values")    
+    bids=models.ManyToManyField(bid,related_name="values",blank=True)
+    photo = models.FileField(upload_to=None,blank=True)
     def __str__(self):
         return f"{self.name} {self.id}"
 

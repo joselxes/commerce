@@ -185,10 +185,11 @@ def createAuction(request):
             userCreator=User.objects.get(username=creator)
             title=form.cleaned_data["title"]
             initialPrice=form.cleaned_data["initialPrice"]
+            photo=form.cleaned_data["photo"]
             # print(initialPrice,type(initialPrice),float(initialPrice),type(float(initialPrice)))
             category=form.cleaned_data["category"]
             description=form.cleaned_data["description"]
-            newList=product(name=title, owner=userCreator ,initialPrice=initialPrice,currentPrice=initialPrice, description=description,category=category)
+            newList=product(name=title, owner=userCreator ,initialPrice=initialPrice,currentPrice=initialPrice, description=description,category=category,photo=photo)
             newList.save()
 
             return HttpResponseRedirect(reverse("index"))
@@ -261,6 +262,7 @@ def removeFromList(request):
     return HttpResponseRedirect(reverse("index"))
 
 """
-falta lo de las imagenes 
 algo de admin
+forma con minimo de actual valor 
+
 """
