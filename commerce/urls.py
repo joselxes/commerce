@@ -21,3 +21,5 @@ urlpatterns = [
     path("", include("auctions.urls")),
     path("category", include("categ.urls")),
  ]
+#  new
+#  urlpatterns += static(settings.MEDIA_URL, documents_root=settings.MEDIA_ROOT)

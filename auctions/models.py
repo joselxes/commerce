@@ -40,6 +40,8 @@ class listing(forms.Form):
 
     productImage=forms.ImageField(label="Imagen",
         widget= forms.FileInput(attrs={'class':'some_class','id':'some_id'}))
+    # productImage=forms.ImageField(label="Imagen", required=False,
+    #     widget= forms.FileInput(attrs={'class':'some_class','id':'some_id'}))
 
     category=forms.ChoiceField(label="Category", choices=categoryOptions,
         widget= forms.Select(attrs={'class':'form-control','id':'some_id','placeholder':'Category','width':'10%'}))    
@@ -66,7 +68,7 @@ class product(models.Model):
     totalBids=models.IntegerField(default=0)
     buyer=models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE, related_name='buyer')
     bids=models.ManyToManyField(bid,related_name="values",blank=True)
-    photo = models.FileField(upload_to=None,blank=True)
+    photo = models.ImageField(blank=True)
     def __str__(self):
         return f"{self.name} {self.id}"
 

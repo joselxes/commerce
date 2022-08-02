@@ -113,6 +113,10 @@ def showItem(request,itemId):
     prodComments=comment.objects.filter(mssFor=prod)
     form=question()
     print(user!=prod.owner,user,prod.owner)
+    if prod.photo!='':
+        print(prod.photo.name,prod.photo.url,"aaa")
+    else:
+        print("no hay foto")
     wlist=itemsList.objects.get(user=user)
     # listaaa=wlist.products.all()
     # print(8888,  listaaa)
@@ -122,7 +126,8 @@ def showItem(request,itemId):
         "comments":prodComments,
         "owner":user==prod.owner,
         "buyer":user==prod.buyer,
-        "isInList":prod in wlist.products.all()
+        "isInList":prod in wlist.products.all(),
+        "minBid":prod.currentPrice+1,
 })
 @login_required
 def wishList(request):
@@ -179,13 +184,20 @@ def addToList(request):
 @login_required
 def createAuction(request):
     if request.method == "POST":
-        form=listing(request.POST)
+        print("1ER IF")
+        form=listing(request.POST, request.FILES)
+        print(form.errors)
+        print(form.errors.as_data())
+
         if form.is_valid():
+            print("2d0 IF")
             creator=request.user
             userCreator=User.objects.get(username=creator)
             title=form.cleaned_data["title"]
             initialPrice=form.cleaned_data["initialPrice"]
-            photo=form.cleaned_data["photo"]
+            print(title,"xxxxxxx")
+            photo=form.cleaned_data["productImage"]
+            print(photo,"xxxxxxx")
             # print(initialPrice,type(initialPrice),float(initialPrice),type(float(initialPrice)))
             category=form.cleaned_data["category"]
             description=form.cleaned_data["description"]
@@ -201,7 +213,7 @@ def postBid(request,itemId):
     if request.method == "POST":
         increase=float(request.POST["increase"])
         actualValue=float(request.POST["actualValue"])
-        newPrice=increase+actualValue
+        newPrice=increase
         userName=request.user
         actualUser=User.objects.get(id=userName.id)
 
@@ -262,7 +274,6 @@ def removeFromList(request):
     return HttpResponseRedirect(reverse("index"))
 
 """
-algo de admin
-forma con minimo de actual valor 
+revisar un poco
 
 """

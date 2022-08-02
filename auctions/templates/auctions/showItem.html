@@ -11,7 +11,11 @@
 
                 </div>
                 <div class="div-auction  area-producto">
-                  <img class="imgShowed imgexpand"  src="{% static 'images/bandmember.jpg' %}" >
+                  {%if prod.photo %}
+                    <img class="imgShowed imgexpand" src="{% static prod.photo.url %}" > 
+                  {% else%}
+                    <img class="imgShowed" src="{% static 'images/no_image.png' %}" > 
+                  {% endif %}                  <!-- <img class="imgShowed imgexpand"  src="{% static 'images/bandmember.jpg' %}" > -->
                   <!-- <img  class="imgcomment" src="https://mangaplus.shueisha.co.jp/drm/comment_icon/502.png?key=de20d0a6eb0a16761c8918837c5cae56&duration=86400" alt="Avatar" style="width:100%;"> -->
                 </div>
                 <div class="div-auction  area-precio left-auction">
@@ -27,7 +31,7 @@
                       <form action="{% url 'postBid' prod.id %}" method="POST">
                         {% csrf_token %}
                         <input name="actualValue" type="hidden" value={{prod.currentPrice}}>
-                        <input name="increase" type="number"  placeholder="Increase" step="any" min="1">
+                        <input name="increase" type="number"  placeholder="Increase" step="any" min="{{minBid}}">
                         <input class="btn btn-primary" type="submit" value="Bid">
                       </form>
 
@@ -127,7 +131,7 @@
               <br>
                 <p>no previous opinion from users, yet</p>
               {% endfor %}
-              <img src="{{prod.photo}}" alt="">
-              <h2>{{prod.photo}},, {{MEDIA_URL}}</h2>
+              
 
+              
               {% endblock %}
