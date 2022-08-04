@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.urls import path
-
+from django.conf import settings
 from .models import User, listing,question, product, getMonth, comment, itemsList, bid
 
 Options=["Fashion","Toys","Electrics","Home"]
@@ -23,13 +23,14 @@ def index(request):
     activeAuctions=product.objects.filter(state=True)
     isInWishList=[]
     username=request.user
-    # print(username)
+    # print(username.id,username.id==None)
     try:
         user=User.objects.get(id=username.id)
-        # print(user)
+        print(user,111)
         return render(request, "auctions/index.html",{"activeAuctions":itemsCheck(activeAuctions,user)})
     except:
-        return render(request, "auctions/index.html",{"activeAuctions":[]})
+        print(222,)
+        return render(request, "auctions/index.html",{"activeAuctions":itemsCheck(activeAuctions,-1)})
 
 def login_view(request):
     if request.method == "POST":
@@ -94,9 +95,13 @@ def category(request):
     return render(request, "auctions/category.html",{"categoria":Options})
 # @login_required
 def listItems(request,department):
-    activeAuctions=product.objects.filter( category = department)
+    activeAuctions=product.objects.filter( category = department, state=True)
     username=request.user
-    user=User.objects.get(id=username.id)
+    if username.id==None:
+        user=-1
+    else:
+        user=User.objects.get(id=username.id)
+    
     return render(request, "auctions/listItems.html",{
         "categoria":Options,"name":department,"activeAuctions":itemsCheck(activeAuctions,user)
 })
@@ -107,7 +112,10 @@ def showItem(request,itemId):
     #     return render(request, "auctions/error.html")
 
     username=request.user
-    user=User.objects.get(id=username.id)
+    if username.id==None:
+        user=-1
+    else:
+        user=User.objects.get(id=username.id)
     prod=product.objects.get(id=itemId)
     print(prod.id,prod.description)    
     prodComments=comment.objects.filter(mssFor=prod)
@@ -117,7 +125,20 @@ def showItem(request,itemId):
         print(prod.photo.name,prod.photo.url,"aaa")
     else:
         print("no hay foto")
-    wlist=itemsList.objects.get(user=user)
+    if username.id==None:
+        return render(request, "auctions/showItem.html",{
+            "prod":prod,
+            "form":form,
+            "comments":prodComments,
+            "owner":user==prod.owner,
+            "buyer":user==prod.buyer,
+            "isInList":False,
+            "minBid":prod.currentPrice+1,
+            })
+    else:
+        wlist=itemsList.objects.get(user=user)
+
+
     # listaaa=wlist.products.all()
     # print(8888,  listaaa)
     return render(request, "auctions/showItem.html",{
@@ -198,12 +219,13 @@ def createAuction(request):
             print(title,"xxxxxxx")
             photo=form.cleaned_data["productImage"]
             print(photo,"xxxxxxx")
+            print("//",settings.MEDIA_ROOT,"\\")
             # print(initialPrice,type(initialPrice),float(initialPrice),type(float(initialPrice)))
             category=form.cleaned_data["category"]
             description=form.cleaned_data["description"]
             newList=product(name=title, owner=userCreator ,initialPrice=initialPrice,currentPrice=initialPrice, description=description,category=category,photo=photo)
             newList.save()
-
+            print("//",newList.photo.name,"\\")
             return HttpResponseRedirect(reverse("index"))
 
     return HttpResponseRedirect(reverse("index"))
@@ -218,7 +240,7 @@ def postBid(request,itemId):
         actualUser=User.objects.get(id=userName.id)
 
         prod=product.objects.get(id=itemId)
-        # print(type(prod.currentPrice))
+
         if prod.currentPrice<newPrice:
             newBid=bid(user=actualUser,value=newPrice)
             newBid.save()
@@ -228,6 +250,7 @@ def postBid(request,itemId):
             prod.buyer=actualUser
             prod.save(update_fields=['totalBids','currentPrice','buyer'])
             print(prod.buyer)
+
             return HttpResponseRedirect(reverse("showItem",kwargs={'itemId':itemId}))
 
 

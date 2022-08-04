@@ -26,21 +26,22 @@
                   {% if prod.state %}
 
 
+                    {% if user.is_authenticated %}                    
+                      {% if owner is False %}
+                        <form action="{% url 'postBid' prod.id %}" method="POST">
+                          {% csrf_token %}
+                          <input name="actualValue" type="hidden" value={{prod.currentPrice}}>
+                          <input name="increase" type="number"  placeholder="Increase" step="any" min="{{minBid}}">
+                          <input class="btn btn-primary" type="submit" value="Bid">
+                        </form>
 
-                    {% if owner is False %}
-                      <form action="{% url 'postBid' prod.id %}" method="POST">
-                        {% csrf_token %}
-                        <input name="actualValue" type="hidden" value={{prod.currentPrice}}>
-                        <input name="increase" type="number"  placeholder="Increase" step="any" min="{{minBid}}">
-                        <input class="btn btn-primary" type="submit" value="Bid">
-                      </form>
-
-                    {% else %}
-                      <form action="{% url 'closeAuction' prod.id %}" method="POST">
-                        {% csrf_token %}
-                        <input class="btn btn-danger" type="submit" value="End Auction">
-                      </form>                  
-                    {% endif %}
+                      {% else %}
+                        <form action="{% url 'closeAuction' prod.id %}" method="POST">
+                          {% csrf_token %}
+                          <input class="btn btn-danger" type="submit" value="End Auction">
+                        </form>                  
+                      {% endif %}
+                    {% endif %}  
                   {% else %} 
 
                     {% if buyer is True %}
@@ -68,27 +69,28 @@
                 </div>
               </div> 
               {% if prod.state %}
+                {% if user.is_authenticated %}
+                  {% if owner is False %}
 
-                {% if owner is False %}
+                    {% if isInList %}
+                      <form action="{% url 'removeFromList' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{prod.id}}" name="productId">
+                        <input class="btn-warning" type="submit"value="Remove from wish list">
+                      </form>
 
-                  {% if isInList %}
-                    <form action="{% url 'removeFromList' %}" method="POST">
-                      {% csrf_token %}
-                      <input type="hidden" value="{{prod.id}}" name="productId">
-                      <input class="btn-warning" type="submit"value="Remove from wish list">
-                    </form>
-
-                  {% else %}
-                    <form action="{% url 'addToList' %}" method="POST">
-                      {% csrf_token %}
-                      <input type="hidden" value="{{prod.id}}" name="productId">
-                      <input class="btn-primary" type="submit"value="Add to wish list">
-                    </form>                  
+                    {% else %}
+                      <form action="{% url 'addToList' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{prod.id}}" name="productId">
+                        <input class="btn-primary" type="submit"value="Add to wish list">
+                      </form>                  
+                    {% endif %}
                   {% endif %}
-                {% endif %}
+                {% endif %}  
               {% endif %}
 
-
+            {% if user.is_authenticated %}
               <form action="{% url 'postComment' prod.id %}" style="margin-top:5vh;" method="POST">
                 <p>Make a comment</p>
                 {% csrf_token %}
@@ -101,9 +103,9 @@
                   {% endfor %}
                   <input class="btn btn-primary" type="submit" value="Comment">
               </form>
+            {% endif %}
 
-
-
+              
               {% for c in comments%}
                 <link rel="stylesheet" type="text/css" href="comentario.css">
 

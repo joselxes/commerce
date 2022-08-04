@@ -35,19 +35,21 @@
                         <!-- <p class=" p-auction"> <strong>Published</strong> {{a.publishDate}} </p> -->
                     </div>
                 </div> 
-                {% if a.1 %}
-                    <form action="{% url 'removeFromList' %}" method="POST">
+                {% if user.is_authenticated %}
+                    {% if a.1 %}
+                        <form action="{% url 'removeFromList' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{a.0.id}}" name="productId">
+                            <input class="btn-warning" type="submit"value="Remove from wish list">
+                        </form>
+
+                    {%else%}
+                        <form action="{% url 'addToList' %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" value="{{a.0.id}}" name="productId">
-                        <input class="btn-warning" type="submit"value="Remove from wish list">
-                      </form>
-
-                {%else%}
-                    <form action="{% url 'addToList' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{a.0.id}}" name="productId">
-                    <input class="btn-primary" type="submit"value="Add to wish list">
-                  </form>
+                        <input class="btn-primary" type="submit"value="Add to wish list">
+                        </form>
+                    {%endif%}
                 {%endif%}
             {% endfor %}
             
